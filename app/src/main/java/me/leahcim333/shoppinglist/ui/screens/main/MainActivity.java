@@ -1,4 +1,4 @@
-package me.leahcim333.shoppinglist;
+package me.leahcim333.shoppinglist.ui.screens.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import me.leahcim333.shoppinglist.R;
 
 public class MainActivity extends AppCompatActivity {
 
