@@ -1,6 +1,6 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
-class MainPresenter implements MainContract.Preseter {
+class MainPresenter implements MainContract.Presenter {
 
     MainContract.View view;
 

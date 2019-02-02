@@ -8,7 +8,7 @@ interface MainContract {
 
     }
 
-    interface Preseter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
     }
 
