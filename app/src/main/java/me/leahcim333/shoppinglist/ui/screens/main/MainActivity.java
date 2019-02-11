@@ -52,4 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
+    public void onDeleteButtonClicked(View view) {
+    }
 }
