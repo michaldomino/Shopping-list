@@ -1,7 +1,6 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,15 +12,15 @@ import me.leahcim333.shoppinglist.R;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
-    MainContract.Presenter preseter;
+    MainContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preseter = new MainPresenter(this);
-        preseter.start();
+        presenter = new MainPresenter(this);
+        presenter.start();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
