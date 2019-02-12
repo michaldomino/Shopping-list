@@ -34,11 +34,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         Button deleteButton = (Button) findViewById(R.id.delete_button);
         deleteButton.setVisibility(View.INVISIBLE);
-        bottomEditText = (EditText) findViewById(R.id.first_edit_text);
 
-        bottomEditText.addTextChangedListener(bottomEditTextWatcher);
-
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this, parentLinearLayout);
         presenter.start();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -73,54 +70,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void onDeleteButtonClicked(View view) {
-        parentLinearLayout.removeView((View) view.getParent());
-        setBottomEditText();
+        presenter.onDeleteButtonClicked(view);
+
     }
 
-    private TextWatcher bottomEditTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String entry = s.toString();
-
-            if (!entry.isEmpty()) {
-                addRow();
-//                bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
-//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                final View rowView = inflater.inflate(R.layout.field, null);
-//                // Add the new row before the add field button.
-//                parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-//                bottomEditText = parentLinearLayout
-//                        .getChildAt(parentLinearLayout.getChildCount() - 1)
-//                        .findViewById(R.id.b_edit_text);
-//                bottomEditText.addTextChangedListener(bottomEditTextWatcher);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    private void addRow() {
-        bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.field, null);
-        // Add the new row before the add field button.
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-        setBottomEditText();
-    }
-
-    private void setBottomEditText() {
-        bottomEditText = parentLinearLayout
-                .getChildAt(parentLinearLayout.getChildCount() - 1)
-                .findViewById(R.id.b_edit_text);
-        bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
-        bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+    @Override
+    public LayoutInflater getInflater() {
+        return  (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }
