@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     public void onDeleteButtonClicked(View view) {
         parentLinearLayout.removeView((View) view.getParent());
+        setBottomEditText();
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
@@ -87,15 +88,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             String entry = s.toString();
 
             if (!entry.isEmpty()) {
-                bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View rowView = inflater.inflate(R.layout.field, null);
-                // Add the new row before the add field button.
-                parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                bottomEditText = parentLinearLayout
-                        .getChildAt(parentLinearLayout.getChildCount() - 1)
-                        .findViewById(R.id.b_edit_text);
-                bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+                addRow();
+//                bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
+//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                final View rowView = inflater.inflate(R.layout.field, null);
+//                // Add the new row before the add field button.
+//                parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+//                bottomEditText = parentLinearLayout
+//                        .getChildAt(parentLinearLayout.getChildCount() - 1)
+//                        .findViewById(R.id.b_edit_text);
+//                bottomEditText.addTextChangedListener(bottomEditTextWatcher);
             }
         }
 
@@ -105,4 +107,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
+    private void addRow() {
+        bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.field, null);
+        // Add the new row before the add field button.
+        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+        setBottomEditText();
+    }
+
+    private void setBottomEditText() {
+        bottomEditText = parentLinearLayout
+                .getChildAt(parentLinearLayout.getChildCount() - 1)
+                .findViewById(R.id.b_edit_text);
+        bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
+        bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+    }
 }
