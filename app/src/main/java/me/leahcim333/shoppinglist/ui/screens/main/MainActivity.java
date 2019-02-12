@@ -84,21 +84,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            String entry = bottomEditText.getText().toString();
+            String entry = s.toString();
 
             if (!entry.isEmpty()) {
+                bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View rowView = inflater.inflate(R.layout.field, null);
                 // Add the new row before the add field button.
                 parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                LinearLayout bottomRow = (LinearLayout) parentLinearLayout.getChildAt(parentLinearLayout.getChildCount());
-                bottomEditText = bottomRow.findViewById(R.id.b_edit_text);
+                bottomEditText = parentLinearLayout
+                        .getChildAt(parentLinearLayout.getChildCount() - 1)
+                        .findViewById(R.id.b_edit_text);
+                bottomEditText.addTextChangedListener(bottomEditTextWatcher);
             }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
         }
     };
 
