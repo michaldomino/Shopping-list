@@ -30,15 +30,14 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onDeleteButtonClicked(View view) {
-        parentLinearLayout.removeView((View) view.getParent());
+        removeRow(view);
         setBottomEditText();
     }
 
     @Override
     public void onFloatingActionButtonClearClicked() {
-        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
-            view.clearRow((LinearLayout) parentLinearLayout.getChildAt(i));
-        }
+        parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
+        view.clearFirstRow();
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
@@ -69,6 +68,10 @@ class MainPresenter implements MainContract.Presenter {
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
         setBottomEditText();
+    }
+
+    private void removeRow(View view) {
+        parentLinearLayout.removeView((View) view.getParent());
     }
 
     private void setBottomEditText() {

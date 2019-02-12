@@ -11,7 +11,7 @@ interface MainContract {
 
         LayoutInflater getInflater();
 
-        void clearRow(LinearLayout row);
+        void clearFirstRow();
     }
 
     interface Presenter extends BasePresenter {

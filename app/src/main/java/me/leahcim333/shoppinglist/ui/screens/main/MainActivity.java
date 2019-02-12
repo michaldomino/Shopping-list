@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void clearRow(LinearLayout row) {
-        EditText rowEditText = row.findViewById(R.id.row_edit_text);
+    public void clearFirstRow() {
+        EditText rowEditText = findViewById(R.id.row_edit_text);
         rowEditText.setText("");
     }
 
