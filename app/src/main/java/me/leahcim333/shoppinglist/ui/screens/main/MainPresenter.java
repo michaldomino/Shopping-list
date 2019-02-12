@@ -1,6 +1,5 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        bottomEditText = parentLinearLayout.findViewById(R.id.first_edit_text);
+        bottomEditText = parentLinearLayout.findViewById(R.id.row_edit_text);
         bottomEditText.addTextChangedListener(bottomEditTextWatcher);
     }
 
@@ -33,6 +32,13 @@ class MainPresenter implements MainContract.Presenter {
     public void onDeleteButtonClicked(View view) {
         parentLinearLayout.removeView((View) view.getParent());
         setBottomEditText();
+    }
+
+    @Override
+    public void onFloatingActionButtonClearClicked() {
+        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
+            view.clearRow((LinearLayout) parentLinearLayout.getChildAt(i));
+        }
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
@@ -68,7 +74,7 @@ class MainPresenter implements MainContract.Presenter {
     private void setBottomEditText() {
         bottomEditText = parentLinearLayout
                 .getChildAt(parentLinearLayout.getChildCount() - 1)
-                .findViewById(R.id.b_edit_text);
+                .findViewById(R.id.row_edit_text);
         bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         bottomEditText.addTextChangedListener(bottomEditTextWatcher);
     }

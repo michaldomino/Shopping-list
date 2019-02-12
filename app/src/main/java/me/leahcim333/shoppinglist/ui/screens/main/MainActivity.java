@@ -64,18 +64,27 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         return super.onOptionsItemSelected(item);
     }
 
-    public void onFloatingActionButtonClicked(View view) {
+    public void onFloatingActionButtonAddClicked(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
     public void onDeleteButtonClicked(View view) {
         presenter.onDeleteButtonClicked(view);
-
     }
 
     @Override
     public LayoutInflater getInflater() {
         return  (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public void clearRow(LinearLayout row) {
+        EditText rowEditText = row.findViewById(R.id.row_edit_text);
+        rowEditText.setText("");
+    }
+
+    public void onFloatingActionButtonClearClicked(View view) {
+        presenter.onFloatingActionButtonClearClicked();
     }
 }
