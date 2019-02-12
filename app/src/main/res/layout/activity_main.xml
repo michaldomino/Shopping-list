@@ -27,15 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end">
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/fab_clear"-->
-            <!--android:layout_width="114dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_margin="@dimen/fab_margin"-->
-            <!--android:onClick="onFloatingActionButtonClearClicked"-->
-            <!--app:srcCompat="@android:drawable/ic_popup_sync" />-->
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"

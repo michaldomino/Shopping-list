@@ -18,7 +18,7 @@ interface MainContract {
 
         void onDeleteButtonClicked(android.view.View view);
 
-        void onFloatingActionButtonClearClicked();
+        void onClearOptionsItemSelected();
     }
 
 }

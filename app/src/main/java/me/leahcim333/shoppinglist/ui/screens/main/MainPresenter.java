@@ -35,9 +35,10 @@ class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onFloatingActionButtonClearClicked() {
+    public void onClearOptionsItemSelected() {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
+        setBottomEditText();
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {

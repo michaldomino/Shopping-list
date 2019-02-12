@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
@@ -57,8 +55,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_clear:
+                presenter.onClearOptionsItemSelected();
+                return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -82,9 +86,5 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void clearFirstRow() {
         EditText rowEditText = findViewById(R.id.row_edit_text);
         rowEditText.setText("");
-    }
-
-    public void onFloatingActionButtonClearClicked(View view) {
-        presenter.onFloatingActionButtonClearClicked();
     }
 }
