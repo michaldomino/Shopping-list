@@ -4,6 +4,10 @@
     android:layout_height="50dp"
     android:orientation="horizontal">
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/row_edit_text"
         android:layout_width="0dp"
