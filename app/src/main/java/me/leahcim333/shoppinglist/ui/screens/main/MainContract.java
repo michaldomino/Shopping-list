@@ -1,5 +1,6 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
@@ -12,6 +13,8 @@ interface MainContract {
         LayoutInflater getInflater();
 
         void clearFirstRow();
+
+        void startVoiceRecognizer();
     }
 
     interface Presenter extends BasePresenter {
@@ -19,6 +22,10 @@ interface MainContract {
         void onDeleteButtonClicked(android.view.View view);
 
         void onClearOptionsItemSelected();
+
+        void onFloatingActionButtonAddClicked();
+
+        void addTextFromSpeechRecognizer(Intent data);
     }
 
 }

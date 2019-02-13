@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import me.leahcim333.shoppinglist.R;
 
 class MainPresenter implements MainContract.Presenter {
@@ -42,6 +44,17 @@ class MainPresenter implements MainContract.Presenter {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
         setBottomEditText();
+    }
+
+    @Override
+    public void onFloatingActionButtonAddClicked() {
+        view.startVoiceRecognizer();
+    }
+
+    @Override
+    public void addTextFromSpeechRecognizer(Intent data) {
+        ArrayList<String> wordsList =
+                data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {

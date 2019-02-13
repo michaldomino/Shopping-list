@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void onFloatingActionButtonAddClicked(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        presenter.onFloatingActionButtonAddClicked();
     }
 
     public void onDeleteButtonClicked(View view) {
@@ -95,11 +94,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public void getVoiceCommand() {
+    @Override
+    public void startVoiceRecognizer() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.voice_command_message));
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.voice_recognizer_message));
         try {
             startActivityForResult(intent, 0);
         } catch (ActivityNotFoundException e) {
@@ -107,5 +107,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 0:
+                    presenter.addTextFromSpeechRecognizer(data);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
