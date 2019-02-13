@@ -53,8 +53,9 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void addTextFromSpeechRecognizer(Intent data) {
-        ArrayList<String> wordsList =
+        ArrayList<String> possibleMatches =
                 data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        String[] wordList = possibleMatches.get(0).split(" i ");
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
