@@ -1,5 +1,7 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
+import android.content.Intent;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -90,4 +92,5 @@ class MainPresenter implements MainContract.Presenter {
         LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
         return linearLayout.findViewById(R.id.delete_button);
     }
+
 }

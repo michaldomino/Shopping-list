@@ -1,7 +1,10 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
 
@@ -20,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     MainContract.Presenter presenter;
 
     private LinearLayout parentLinearLayout;
-
-    private EditText bottomEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public LayoutInflater getInflater() {
-        return  (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -87,4 +89,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         EditText rowEditText = findViewById(R.id.row_edit_text);
         rowEditText.setText("");
     }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void getVoiceCommand() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.voice_command_message));
+        try {
+            startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException e) {
+            showToast(e.getMessage());
+        }
+    }
+
+
 }
