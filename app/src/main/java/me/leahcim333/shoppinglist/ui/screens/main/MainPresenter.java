@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -76,10 +77,17 @@ class MainPresenter implements MainContract.Presenter {
     }
 
     private void setBottomEditText() {
+        getBottomDeleteButton().setVisibility(View.VISIBLE);
         bottomEditText = parentLinearLayout
                 .getChildAt(parentLinearLayout.getChildCount() - 1)
                 .findViewById(R.id.row_edit_text);
         bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+        getBottomDeleteButton().setVisibility(View.INVISIBLE);
+    }
+
+    private Button getBottomDeleteButton() {
+        LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
+        return linearLayout.findViewById(R.id.delete_button);
     }
 }
