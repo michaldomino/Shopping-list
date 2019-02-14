@@ -26,6 +26,8 @@ interface MainContract {
         void onFloatingActionButtonAddClicked();
 
         void addTextFromSpeechRecognizer(Intent data);
+
+        void onLoadListOptionsItemSelected();
     }
 
 }

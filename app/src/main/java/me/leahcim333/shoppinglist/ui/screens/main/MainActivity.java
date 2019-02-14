@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
-
-//        Button deleteButton = (Button) findViewById(R.id.delete_button);
-//        deleteButton.setVisibility(View.INVISIBLE);
 
         presenter = new MainPresenter(this, parentLinearLayout);
         presenter.start();
@@ -62,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 return true;
             case R.id.action_clear:
                 presenter.onClearOptionsItemSelected();
+                return true;
+            case R.id.action_load_list:
+                presenter.onLoadListOptionsItemSelected();
                 return true;
             default:
                 break;

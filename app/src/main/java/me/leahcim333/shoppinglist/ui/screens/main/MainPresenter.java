@@ -41,9 +41,13 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClearOptionsItemSelected() {
-        parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
-        view.clearFirstRow();
-        setBottomEditText(false,"");
+        clearScreen();
+    }
+
+    @Override
+    public void onLoadListOptionsItemSelected() {
+        clearScreen();
+
     }
 
     @Override
@@ -87,6 +91,12 @@ class MainPresenter implements MainContract.Presenter {
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
         setBottomEditText(checked, text);
+    }
+
+    private void clearScreen() {
+        parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
+        view.clearFirstRow();
+        setBottomEditText(false,"");
     }
 
     private void removeRow(View view) {
