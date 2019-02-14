@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
-        Button deleteButton = (Button) findViewById(R.id.delete_button);
-        deleteButton.setVisibility(View.INVISIBLE);
+//        Button deleteButton = (Button) findViewById(R.id.delete_button);
+//        deleteButton.setVisibility(View.INVISIBLE);
 
         presenter = new MainPresenter(this, parentLinearLayout);
         presenter.start();

@@ -20,7 +20,7 @@ class MainPresenter implements MainContract.Presenter {
 
     private LinearLayout parentLinearLayout;
 
-    private EditText bottomEditText;
+    private EditText bottomEditText = null;
 
     MainPresenter(MainContract.View view, LinearLayout parentLinearLayout) {
         this.view = view;
@@ -29,8 +29,7 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        bottomEditText = parentLinearLayout.findViewById(R.id.row_edit_text);
-        bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+        addRow();
     }
 
     @Override
@@ -80,7 +79,8 @@ class MainPresenter implements MainContract.Presenter {
     };
 
     private void addRow() {
-        bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
+        if (bottomEditText != null)
+            bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         LayoutInflater inflater = view.getInflater();
         final View rowView = inflater.inflate(R.layout.field, null);
         // Add the new row before the add field button.
@@ -93,7 +93,8 @@ class MainPresenter implements MainContract.Presenter {
     }
 
     private void setBottomEditText() {
-        getBottomDeleteButton().setVisibility(View.VISIBLE);
+        if (bottomEditText != null)
+            getBottomDeleteButton().setVisibility(View.VISIBLE);
         bottomEditText = parentLinearLayout
                 .getChildAt(parentLinearLayout.getChildCount() - 1)
                 .findViewById(R.id.row_edit_text);
