@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -29,20 +30,20 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        addRow();
+        addRow(false,"");
     }
 
     @Override
     public void onDeleteButtonClicked(View view) {
         removeRow(view);
-        setBottomEditText();
+        setBottomEditText(false,"");
     }
 
     @Override
     public void onClearOptionsItemSelected() {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
-        setBottomEditText();
+        setBottomEditText(false,"");
     }
 
     @Override
@@ -68,7 +69,7 @@ class MainPresenter implements MainContract.Presenter {
             String entry = s.toString();
 
             if (!entry.isEmpty()) {
-                addRow();
+                addRow(false,"");
             }
         }
 
@@ -78,21 +79,21 @@ class MainPresenter implements MainContract.Presenter {
         }
     };
 
-    private void addRow() {
+    private void addRow(Boolean checked, String text) {
         if (bottomEditText != null)
             bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         LayoutInflater inflater = view.getInflater();
         final View rowView = inflater.inflate(R.layout.field, null);
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-        setBottomEditText();
+        setBottomEditText(checked, text);
     }
 
     private void removeRow(View view) {
         parentLinearLayout.removeView((View) view.getParent());
     }
 
-    private void setBottomEditText() {
+    private void setBottomEditText(Boolean checked, String text) {
         if (bottomEditText != null)
             getBottomDeleteButton().setVisibility(View.VISIBLE);
         bottomEditText = parentLinearLayout
@@ -100,12 +101,19 @@ class MainPresenter implements MainContract.Presenter {
                 .findViewById(R.id.row_edit_text);
         bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         bottomEditText.addTextChangedListener(bottomEditTextWatcher);
+        bottomEditText.setText(text);
         getBottomDeleteButton().setVisibility(View.INVISIBLE);
+        getBottomCheckbox().setChecked(checked);
     }
 
     private Button getBottomDeleteButton() {
         LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
         return linearLayout.findViewById(R.id.delete_button);
+    }
+
+    private CheckBox getBottomCheckbox() {
+        LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
+        return linearLayout.findViewById(R.id.checkbox);
     }
 
 }
