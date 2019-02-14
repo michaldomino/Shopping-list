@@ -1,8 +1,11 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
 
@@ -20,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     MainContract.Presenter presenter;
 
     private LinearLayout parentLinearLayout;
-
-    private EditText bottomEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void onFloatingActionButtonAddClicked(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        presenter.onFloatingActionButtonAddClicked();
     }
 
     public void onDeleteButtonClicked(View view) {
@@ -79,12 +80,43 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public LayoutInflater getInflater() {
-        return  (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public void clearFirstRow() {
         EditText rowEditText = findViewById(R.id.row_edit_text);
         rowEditText.setText("");
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void startVoiceRecognizer() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.voice_recognizer_message));
+        try {
+            startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException e) {
+            showToast(e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 0:
+                    presenter.addTextFromSpeechRecognizer(data);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

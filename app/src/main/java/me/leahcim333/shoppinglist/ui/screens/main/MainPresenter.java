@@ -1,5 +1,7 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
+import android.content.Intent;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -7,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 
 import me.leahcim333.shoppinglist.R;
 
@@ -40,6 +44,18 @@ class MainPresenter implements MainContract.Presenter {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
         setBottomEditText();
+    }
+
+    @Override
+    public void onFloatingActionButtonAddClicked() {
+        view.startVoiceRecognizer();
+    }
+
+    @Override
+    public void addTextFromSpeechRecognizer(Intent data) {
+        ArrayList<String> possibleMatches =
+                data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        String[] wordList = possibleMatches.get(0).split(" i ");
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
@@ -90,4 +106,5 @@ class MainPresenter implements MainContract.Presenter {
         LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
         return linearLayout.findViewById(R.id.delete_button);
     }
+
 }
