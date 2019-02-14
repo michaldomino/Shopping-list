@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             case R.id.action_clear:
                 presenter.onClearOptionsItemSelected();
                 return true;
+            case R.id.action_save_list:
+                presenter.onSaveListOptionsItemSelected();
+                return true;
             case R.id.action_load_list:
                 presenter.onLoadListOptionsItemSelected();
                 return true;

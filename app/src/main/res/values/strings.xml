@@ -4,4 +4,5 @@
     <string name="action_clear">Clear</string>
     <string name="voice_recognizer_message">Name some items...</string>
     <string name="action_load_list">Load list</string>
+    <string name="action_save_list">Save list</string>
 </resources>

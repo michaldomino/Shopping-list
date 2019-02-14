@@ -27,6 +27,8 @@ interface MainContract {
 
         void addTextFromSpeechRecognizer(Intent data);
 
+        void onSaveListOptionsItemSelected();
+
         void onLoadListOptionsItemSelected();
     }
 
