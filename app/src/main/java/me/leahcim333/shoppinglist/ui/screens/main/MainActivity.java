@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
+import me.leahcim333.shoppinglist.data.database.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -29,9 +30,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DBHelper db = new DBHelper(this);
+
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
-        presenter = new MainPresenter(this, parentLinearLayout);
+        presenter = new MainPresenter(this, parentLinearLayout, db);
         presenter.start();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

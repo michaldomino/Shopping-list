@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 import me.leahcim333.shoppinglist.R;
+import me.leahcim333.shoppinglist.data.database.DBHelper;
 
 class MainPresenter implements MainContract.Presenter {
 
@@ -23,20 +24,23 @@ class MainPresenter implements MainContract.Presenter {
 
     private EditText bottomEditText = null;
 
-    MainPresenter(MainContract.View view, LinearLayout parentLinearLayout) {
+    DBHelper db;
+
+    MainPresenter(MainContract.View view, LinearLayout parentLinearLayout, DBHelper db) {
         this.view = view;
         this.parentLinearLayout = parentLinearLayout;
+        this.db = db;
     }
 
     @Override
     public void start() {
-        addRow(false,"");
+        addRow(false, "");
     }
 
     @Override
     public void onDeleteButtonClicked(View view) {
         removeRow(view);
-        setBottomEditText(false,"");
+        setBottomEditText(false, "");
     }
 
     @Override
@@ -46,7 +50,7 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onSaveListOptionsItemSelected() {
-        
+        saveListToDatabase();
     }
 
     @Override
@@ -78,7 +82,7 @@ class MainPresenter implements MainContract.Presenter {
             String entry = s.toString();
 
             if (!entry.isEmpty()) {
-                addRow(false,"");
+                addRow(false, "");
             }
         }
 
@@ -101,7 +105,7 @@ class MainPresenter implements MainContract.Presenter {
     private void clearScreen() {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
-        setBottomEditText(false,"");
+        setBottomEditText(false, "");
     }
 
     private void removeRow(View view) {
@@ -128,7 +132,19 @@ class MainPresenter implements MainContract.Presenter {
 
     private CheckBox getBottomCheckbox() {
         LinearLayout linearLayout = (LinearLayout) bottomEditText.getParent();
-        return linearLayout.findViewById(R.id.checkbox);
+        return linearLayout.findViewById(R.id.row_checkbox);
     }
 
+    private void saveListToDatabase() {
+        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
+            LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
+            CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
+            EditText editText = linearLayout.findViewById(R.id.row_edit_text);
+            boolean isInserted = db.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
+            if (isInserted)
+                view.showToast("Save successful");
+            else
+                view.showToast("Save unsuccessful");
+        }
+    }
 }
