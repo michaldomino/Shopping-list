@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Shopping list</string>
     <string name="action_settings">Settings</string>
+    <string name="action_clear">Clear</string>
+    <string name="voice_recognizer_message">Name some products...</string>
+    <string name="action_load_list">Load list</string>
+    <string name="action_save_list">Save list</string>
+    <string name="save_successful">Save successful</string>
+    <string name="save_unsuccessful">Save unsuccessful</string>
+    <string name="products_separator"> and </string>
 </resources>
