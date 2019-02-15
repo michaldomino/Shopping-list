@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista zakupów</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="action_clear">Wyczyść</string>
+    <string name="voice_recognizer_message">Wymień produkty</string>
+    <string name="action_load_list">Załaduj listę</string>
+    <string name="action_save_list">Zapisz listę</string>
+    <string name="save_successful">Zapis się powiódł</string>
+    <string name="save_unsuccessful">Zapis się nie powiódł</string>
+    <string name="products_separator">" i "</string>
+</resources>
