@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBHelper db = new DBHelper(this);
+        DBHelper dbHelper = new DBHelper(this);
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
-        presenter = new MainPresenter(this, parentLinearLayout, db);
+        presenter = new MainPresenter(this, parentLinearLayout, dbHelper);
         presenter.start();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

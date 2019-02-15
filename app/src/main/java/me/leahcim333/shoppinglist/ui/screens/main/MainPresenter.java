@@ -1,6 +1,8 @@
 package me.leahcim333.shoppinglist.ui.screens.main;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import me.leahcim333.shoppinglist.R;
 import me.leahcim333.shoppinglist.data.database.DBHelper;
 
+import static me.leahcim333.shoppinglist.data.database.DatabaseContract.Entry;
+
 class MainPresenter implements MainContract.Presenter {
 
     MainContract.View view;
@@ -24,23 +28,23 @@ class MainPresenter implements MainContract.Presenter {
 
     private EditText bottomEditText = null;
 
-    DBHelper db;
+    DBHelper dbHelper;
 
     MainPresenter(MainContract.View view, LinearLayout parentLinearLayout, DBHelper db) {
         this.view = view;
         this.parentLinearLayout = parentLinearLayout;
-        this.db = db;
+        this.dbHelper = db;
     }
 
     @Override
     public void start() {
-        addRow(false, "");
+        addRow();
     }
 
     @Override
     public void onDeleteButtonClicked(View view) {
         removeRow(view);
-        setBottomEditText(false, "");
+        setBottomEditText();
     }
 
     @Override
@@ -55,8 +59,7 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onLoadListOptionsItemSelected() {
-        clearScreen();
-
+        loadListFromDatabase();
     }
 
     @Override
@@ -68,7 +71,10 @@ class MainPresenter implements MainContract.Presenter {
     public void addTextFromSpeechRecognizer(Intent data) {
         ArrayList<String> possibleMatches =
                 data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-        String[] wordList = possibleMatches.get(0).split(" i ");
+        String[] productList = possibleMatches.get(0).split(view.getString(R.string.products_separator));
+        for (String productName : productList) {
+            addRow(false, productName);
+        }
     }
 
     private TextWatcher bottomEditTextWatcher = new TextWatcher() {
@@ -82,7 +88,7 @@ class MainPresenter implements MainContract.Presenter {
             String entry = s.toString();
 
             if (!entry.isEmpty()) {
-                addRow(false, "");
+                addRow();
             }
         }
 
@@ -92,27 +98,33 @@ class MainPresenter implements MainContract.Presenter {
         }
     };
 
-    private void addRow(Boolean checked, String text) {
+    private void addRow() {
         if (bottomEditText != null)
             bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         LayoutInflater inflater = view.getInflater();
         final View rowView = inflater.inflate(R.layout.field, null);
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-        setBottomEditText(checked, text);
+        setBottomEditText();
+    }
+
+    private void addRow(boolean checked, String productName) {
+        getBottomCheckbox().setChecked(checked);
+        bottomEditText.setText(productName);
+        setBottomEditText();
     }
 
     private void clearScreen() {
         parentLinearLayout.removeViews(1, parentLinearLayout.getChildCount() - 1);
         view.clearFirstRow();
-        setBottomEditText(false, "");
+        setBottomEditText();
     }
 
     private void removeRow(View view) {
         parentLinearLayout.removeView((View) view.getParent());
     }
 
-    private void setBottomEditText(Boolean checked, String text) {
+    private void setBottomEditText() {
         if (bottomEditText != null)
             getBottomDeleteButton().setVisibility(View.VISIBLE);
         bottomEditText = parentLinearLayout
@@ -120,9 +132,7 @@ class MainPresenter implements MainContract.Presenter {
                 .findViewById(R.id.row_edit_text);
         bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         bottomEditText.addTextChangedListener(bottomEditTextWatcher);
-        bottomEditText.setText(text);
         getBottomDeleteButton().setVisibility(View.INVISIBLE);
-        getBottomCheckbox().setChecked(checked);
     }
 
     private Button getBottomDeleteButton() {
@@ -136,15 +146,29 @@ class MainPresenter implements MainContract.Presenter {
     }
 
     private void saveListToDatabase() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(Entry.TABLE_NAME, null, null);
         for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
             LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
             CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
             EditText editText = linearLayout.findViewById(R.id.row_edit_text);
-            boolean isInserted = db.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
+            boolean isInserted = dbHelper.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
             if (isInserted)
                 view.showToast(view.getString(R.string.save_successful));
             else
                 view.showToast(view.getString(R.string.save_unsuccessful));
+        }
+    }
+
+    private void loadListFromDatabase() {
+        clearScreen();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] columns = {Entry.COLUMN_NAME_CHECKED, Entry.COLUMN_NAME_PRODUCT_NAME};
+        Cursor cursor = db.query(Entry.TABLE_NAME, columns, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            boolean checked = cursor.getLong(0) == 1;
+            String productName = cursor.getString(1);
+            addRow(checked, productName);
         }
     }
 }
