@@ -142,9 +142,9 @@ class MainPresenter implements MainContract.Presenter {
             EditText editText = linearLayout.findViewById(R.id.row_edit_text);
             boolean isInserted = db.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
             if (isInserted)
-                view.showToast("Save successful");
+                view.showToast(view.getString(R.string.save_successful));
             else
-                view.showToast("Save unsuccessful");
+                view.showToast(view.getString(R.string.save_unsuccessful));
         }
     }
 }

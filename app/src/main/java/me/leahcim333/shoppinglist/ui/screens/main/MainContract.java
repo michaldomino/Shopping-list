@@ -15,6 +15,8 @@ interface MainContract {
         void clearFirstRow();
 
         void startVoiceRecognizer();
+
+        String getString(int id);
     }
 
     interface Presenter extends BasePresenter {
