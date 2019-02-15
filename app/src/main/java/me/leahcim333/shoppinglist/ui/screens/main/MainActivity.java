@@ -3,6 +3,7 @@ package me.leahcim333.shoppinglist.ui.screens.main;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
@@ -12,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
+import me.leahcim333.shoppinglist.data.database.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -30,12 +31,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DBHelper dbHelper = new DBHelper(this);
+
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
-        Button deleteButton = (Button) findViewById(R.id.delete_button);
-        deleteButton.setVisibility(View.INVISIBLE);
-
-        presenter = new MainPresenter(this, parentLinearLayout);
+        presenter = new MainPresenter(this, parentLinearLayout, dbHelper);
         presenter.start();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -62,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 return true;
             case R.id.action_clear:
                 presenter.onClearOptionsItemSelected();
+                return true;
+            case R.id.action_save_list:
+                presenter.onSaveListOptionsItemSelected();
+                return true;
+            case R.id.action_load_list:
+                presenter.onLoadListOptionsItemSelected();
                 return true;
             default:
                 break;

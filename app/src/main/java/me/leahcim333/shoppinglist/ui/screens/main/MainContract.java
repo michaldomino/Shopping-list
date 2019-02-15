@@ -15,6 +15,8 @@ interface MainContract {
         void clearFirstRow();
 
         void startVoiceRecognizer();
+
+        String getString(int id);
     }
 
     interface Presenter extends BasePresenter {
@@ -26,6 +28,10 @@ interface MainContract {
         void onFloatingActionButtonAddClicked();
 
         void addTextFromSpeechRecognizer(Intent data);
+
+        void onSaveListOptionsItemSelected();
+
+        void onLoadListOptionsItemSelected();
     }
 
 }
