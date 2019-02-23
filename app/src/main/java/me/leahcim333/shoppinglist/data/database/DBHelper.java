@@ -12,15 +12,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "dataBase.db";
 
+    public static final String SQL_CREATE_LISTS =
+            "CREATE TABLE " + DatabaseContract.List.TABLE_NAME + " (" +
+                    ")";
+
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + Entry.TABLE_NAME + " (" +
                     Entry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Entry.COLUMN_NAME_CHECKED + " INTEGER," +
-                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT)";
+                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT" +
+                    Entry.COLUMN_NAME_LIST_ID + "INTEGER FOREIGN KEY ())";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Entry.TABLE_NAME;
-
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
