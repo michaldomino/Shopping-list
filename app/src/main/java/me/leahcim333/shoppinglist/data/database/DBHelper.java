@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import static me.leahcim333.shoppinglist.data.database.DatabaseContract.Entry;
+import static me.leahcim333.shoppinglist.data.database.DatabaseContract.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -13,15 +14,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "dataBase.db";
 
     public static final String SQL_CREATE_LISTS =
-            "CREATE TABLE " + DatabaseContract.List.TABLE_NAME + " (" +
-                    ")";
+            "CREATE TABLE " + List.TABLE_NAME + " (" +
+                    List.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    List.COLUMN_NAME_LISTNAME + "TEXT)";
 
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + Entry.TABLE_NAME + " (" +
                     Entry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Entry.COLUMN_NAME_CHECKED + " INTEGER," +
-                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT" +
-                    Entry.COLUMN_NAME_LIST_ID + "INTEGER FOREIGN KEY ())";
+                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT," +
+                    "FOREIGN KEY (" + Entry.COLUMN_NAME_LIST_ID + ") " +
+                    "REFERENCES " + List.TABLE_NAME + "(" + List.COLUMN_NAME_ID + "));";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Entry.TABLE_NAME;
@@ -34,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_LISTS);
     }
 
     @Override
