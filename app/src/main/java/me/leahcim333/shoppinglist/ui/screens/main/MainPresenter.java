@@ -150,16 +150,19 @@ class MainPresenter implements MainContract.Presenter {
     private void saveListToDatabase() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(Entry.TABLE_NAME, null, null);
+        boolean saveSuccessful = true;
         for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
             LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
             CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
             EditText editText = linearLayout.findViewById(R.id.row_edit_text);
             boolean isInserted = dbHelper.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
-            if (isInserted)
-                view.showToast(view.getString(R.string.save_successful));
-            else
-                view.showToast(view.getString(R.string.save_unsuccessful));
+            if (!isInserted)
+                saveSuccessful = false;
         }
+        if (saveSuccessful)
+            view.showToast(view.getString(R.string.save_successful));
+        else
+            view.showToast(view.getString(R.string.save_unsuccessful));
     }
 
     private void loadListFromDatabase() {
