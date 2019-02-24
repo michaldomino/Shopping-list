@@ -16,18 +16,21 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_LISTS =
             "CREATE TABLE " + List.TABLE_NAME + " (" +
                     List.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    List.COLUMN_NAME_LISTNAME + "TEXT)";
+                    List.COLUMN_NAME_LISTNAME + "TEXT NOT NULL)";
 
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + Entry.TABLE_NAME + " (" +
                     Entry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    Entry.COLUMN_NAME_CHECKED + " INTEGER," +
-                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT," +
-                    "FOREIGN KEY (" + Entry.COLUMN_NAME_LIST_ID + ") " +
-                    "REFERENCES " + List.TABLE_NAME + "(" + List.COLUMN_NAME_ID + "));";
+                    Entry.COLUMN_NAME_CHECKED + " INTEGER NOT NULL," +
+                    Entry.COLUMN_NAME_PRODUCT_NAME + " TEXT NOT NULL," +
+                    Entry.COLUMN_NAME_LIST_ID + " INTEGER NOT NULL," +
+                    "FOREIGN KEY (" + Entry.COLUMN_NAME_LIST_ID + ") " + "REFERENCES " + List.TABLE_NAME + "(" + List.COLUMN_NAME_ID + ") ON DELETE CASCADE);";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Entry.TABLE_NAME;
+
+    private static final String SQL_DELETE_LISTS =
+            "DROP TABLE IF EXISTS " + List.TABLE_NAME;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,8 +44,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys=ON");
+    }
+
+    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_LISTS);
         onCreate(db);
     }
 
