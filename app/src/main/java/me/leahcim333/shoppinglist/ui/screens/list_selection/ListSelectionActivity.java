@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
+import me.leahcim333.shoppinglist.data.database.DBHelper;
 
 public class ListSelectionActivity extends AppCompatActivity implements ListSelectionContract.View {
 
@@ -22,7 +23,9 @@ public class ListSelectionActivity extends AppCompatActivity implements ListSele
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        presenter = new ListSelectionPresenter(this);
+        DBHelper dbHelper = new DBHelper(this);
+
+        presenter = new ListSelectionPresenter(this, dbHelper);
         presenter.start();
     }
 

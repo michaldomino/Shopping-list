@@ -27,10 +27,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private LinearLayout parentLinearLayout;
 
+    private final int RESULT_CODE_SPEECH_RECOGNIZER = 0;
+
+    private final int RESULT_CODE_LIST_SELECTION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DBHelper dbHelper = new DBHelper(this);
 
@@ -38,9 +44,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter(this, parentLinearLayout, dbHelper);
         presenter.start();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.voice_recognizer_message));
         try {
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, RESULT_CODE_SPEECH_RECOGNIZER);
         } catch (ActivityNotFoundException e) {
             showToast(e.getMessage());
         }
@@ -124,9 +127,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case 0:
+                case RESULT_CODE_SPEECH_RECOGNIZER:
                     presenter.addTextFromSpeechRecognizer(data);
                     break;
+                case RESULT_CODE_LIST_SELECTION:
+
                 default:
                     break;
             }
