@@ -8,4 +8,5 @@
     <string name="save_successful">Save successful</string>
     <string name="save_unsuccessful">Save unsuccessful</string>
     <string name="products_separator"> and </string>
+    <string name="title_activity_list_selection">ListSelectionActivity</string>
 </resources>
