@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import me.leahcim333.shoppinglist.R;
 import me.leahcim333.shoppinglist.data.database.DBHelper;
+import me.leahcim333.shoppinglist.ui.screens.list_selection.ListSelectionActivity;
 
 import static me.leahcim333.shoppinglist.data.database.DatabaseContract.Entry;
 
@@ -59,7 +60,8 @@ class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onLoadListOptionsItemSelected() {
-        loadListFromDatabase();
+//        loadListFromDatabase();
+        view.startNewActivity(ListSelectionActivity.class);
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
 import me.leahcim333.shoppinglist.data.database.DBHelper;
+import me.leahcim333.shoppinglist.ui.screens.list_selection.ListSelectionActivity;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -111,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         } catch (ActivityNotFoundException e) {
             showToast(e.getMessage());
         }
+    }
+
+    @Override
+    public void startNewActivity(Class cls) {
+        Intent intent = new Intent(getApplicationContext(), cls);
+        startActivity(intent);
     }
 
     @Override
