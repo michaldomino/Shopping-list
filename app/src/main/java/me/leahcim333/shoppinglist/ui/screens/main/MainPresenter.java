@@ -104,8 +104,8 @@ class MainPresenter implements MainContract.Presenter {
         if (bottomEditText != null)
             bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         LayoutInflater inflater = view.getInflater();
-        final View rowView = inflater.inflate(R.layout.field, null);
-        // Add the new row before the add field button.
+        final View rowView = inflater.inflate(R.layout.main_row, null);
+        // Add the new row before the add main_row button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
         setBottomEditText();
     }
