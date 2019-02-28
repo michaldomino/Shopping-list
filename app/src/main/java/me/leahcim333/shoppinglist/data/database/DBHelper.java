@@ -39,8 +39,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_LISTS);
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override
@@ -61,12 +61,20 @@ public class DBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public boolean insertData(Long checked, String productName) {
+    public boolean insertEntry(Long checked, String productName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Entry.COLUMN_NAME_CHECKED, checked);
         contentValues.put(Entry.COLUMN_NAME_PRODUCT_NAME, productName);
         long result = db.insert(Entry.TABLE_NAME, null, contentValues);
+        return result != -1;
+    }
+
+    public boolean instertList(String listName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(List.COLUMN_NAME_LISTNAME, listName);
+        long result = db.insert(List.TABLE_NAME, null, contentValues);
         return result != -1;
     }
 }
