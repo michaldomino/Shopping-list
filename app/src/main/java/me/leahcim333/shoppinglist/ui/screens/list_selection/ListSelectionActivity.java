@@ -36,7 +36,7 @@ public class ListSelectionActivity extends AppCompatActivity implements ListSele
 
     @Override
     public void showToast(String message) {
-
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

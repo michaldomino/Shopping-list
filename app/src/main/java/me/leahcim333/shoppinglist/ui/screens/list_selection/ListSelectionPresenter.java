@@ -4,8 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import me.leahcim333.shoppinglist.R;
@@ -29,22 +27,22 @@ class ListSelectionPresenter implements ListSelectionContract.Presenter {
 
     @Override
     public void start() {
-        loadLists();
+//        loadLists();
+        saveLists();
     }
 
     private void saveLists() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 //        db.delete(DatabaseContract.Entry.TABLE_NAME, null, null);
-        boolean saveSuccessful = true;
-        dbHelper.insertEntry()
-        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
-            LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
-            CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
-            EditText editText = linearLayout.findViewById(R.id.row_edit_text);
-            boolean isInserted = dbHelper.insertEntry((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
-            if (!isInserted)
-                saveSuccessful = false;
-        }
+        boolean saveSuccessful = dbHelper.insertList("abc");
+//        for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
+//            LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
+//            CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
+//            EditText editText = linearLayout.findViewById(R.id.row_edit_text);
+//            boolean isInserted = dbHelper.insertEntry((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
+//            if (!isInserted)
+//                saveSuccessful = false;
+//        }
         if (saveSuccessful)
             view.showToast(view.getString(R.string.save_successful));
         else

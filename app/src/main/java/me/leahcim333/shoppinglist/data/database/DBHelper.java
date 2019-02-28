@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean instertList(String listName) {
+    public boolean insertList(String listName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(List.COLUMN_NAME_LISTNAME, listName);
