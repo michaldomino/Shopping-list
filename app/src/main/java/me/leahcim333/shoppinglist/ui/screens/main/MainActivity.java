@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     MainContract.Presenter presenter;
 
-    private LinearLayout parentLinearLayout;
+//    private LinearLayout parentLinearLayout;
 
     private final int RESULT_CODE_SPEECH_RECOGNIZER = 0;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         DBHelper dbHelper = new DBHelper(this);
 
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
+        LinearLayout parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
         presenter = new MainPresenter(this, parentLinearLayout, dbHelper);
         presenter.start();

@@ -11,13 +11,9 @@ import me.leahcim333.shoppinglist.ui.screens.list_selection.ListSelectionActivit
 interface MainContract {
     interface View extends BaseView {
 
-        LayoutInflater getInflater();
-
         void clearFirstRow();
 
         void startVoiceRecognizer();
-
-        String getString(int id);
 
         void startNewActivity(Class cls);
     }

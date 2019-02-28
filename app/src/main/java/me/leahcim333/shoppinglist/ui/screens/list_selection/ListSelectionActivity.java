@@ -1,11 +1,14 @@
 package me.leahcim333.shoppinglist.ui.screens.list_selection;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import me.leahcim333.shoppinglist.R;
@@ -25,13 +28,20 @@ public class ListSelectionActivity extends AppCompatActivity implements ListSele
 
         DBHelper dbHelper = new DBHelper(this);
 
-        presenter = new ListSelectionPresenter(this, dbHelper);
+        LinearLayout parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
+
+        presenter = new ListSelectionPresenter(this, parentLinearLayout, dbHelper);
         presenter.start();
     }
 
     @Override
     public void showToast(String message) {
 
+    }
+
+    @Override
+    public LayoutInflater getInflater() {
+        return (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void onFloatingActionButtonAddClicked(View view) {

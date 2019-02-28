@@ -105,7 +105,6 @@ class MainPresenter implements MainContract.Presenter {
             bottomEditText.removeTextChangedListener(bottomEditTextWatcher);
         LayoutInflater inflater = view.getInflater();
         final View rowView = inflater.inflate(R.layout.main_row, null);
-        // Add the new row before the add main_row button.
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
         setBottomEditText();
     }
@@ -155,7 +154,7 @@ class MainPresenter implements MainContract.Presenter {
             LinearLayout linearLayout = (LinearLayout) parentLinearLayout.getChildAt(i);
             CheckBox checkBox = linearLayout.findViewById(R.id.row_checkbox);
             EditText editText = linearLayout.findViewById(R.id.row_edit_text);
-            boolean isInserted = dbHelper.insertData((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
+            boolean isInserted = dbHelper.insertEntry((long) (checkBox.isChecked() ? 1 : 0), editText.getText().toString());
             if (!isInserted)
                 saveSuccessful = false;
         }
